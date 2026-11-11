@@ -1,0 +1,11 @@
+{
+    "name": "Risk_of_Sharing",
+    "description": "Risk of Rain 2 mod that shares items to all players",
+    "version_number": "0.0.1",
+    "dependencies": [
+        "bbepis-BepInExPack-5.4.2122",
+        "RiskofThunder-R2API_Networking-1.0.4",
+        "Rune580-Risk_Of_Options-2.8.6"
+    ],
+    "website_url": "https://github.com/Mavodeli/risk_of_sharing"
+}
