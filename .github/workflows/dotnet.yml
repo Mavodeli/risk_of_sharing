@@ -28,10 +28,10 @@ jobs:
     - name: Bundle
       run: ./zipper.sh
     - name: Upload
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
-        name: build
         path: build/risk_of_sharing.zip
+        archive: false
       if: ${{ always() }}
     - name: Release
       uses: softprops/action-gh-release@v3
