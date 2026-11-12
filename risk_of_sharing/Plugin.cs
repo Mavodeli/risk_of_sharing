@@ -1,5 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using HarmonyLib;
+using risk_of_sharing.patches;
 
 namespace risk_of_sharing;
 
@@ -14,11 +16,17 @@ public class Plugin : BaseUnityPlugin
     const string pluginVersion = "0.0.2";
 
     internal static new ManualLogSource Logger;
+    private Harmony harmonyPatcher;
 
     private void Awake()
     {
         Logger = base.Logger;
+        harmonyPatcher = new Harmony(pluginGUID);
 
         Logger.LogInfo($"Plugin {pluginGUID} is loaded!");
+        Logger.LogInfo("Applying patches");
+
+        harmonyPatcher.CreateClassProcessor(typeof(ItemDefAttemptGrantPatch)).Patch();
+        harmonyPatcher.CreateClassProcessor(typeof(StageStartPatch)).Patch();
     }
 }
