@@ -65,10 +65,15 @@ namespace risk_of_sharing
 
             foreach (ItemTier targetTier in Settings.itemTiersToShare)
             {
-                itemsToShare[targetTier] = ItemCatalog.allItemDefs.Where(itemdef => itemdef.tier == targetTier).Select(def => def.itemIndex).ToList();
+                itemsToShare[targetTier] = targetTier switch
+                {
+                    ItemTier.Tier1 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier1DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
+                    ItemTier.Tier2 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier2DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
+                    ItemTier.Tier3 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier3DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
+                    ItemTier.Boss => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableBossDropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
+                    _ => new List<ItemIndex>() // should only be reached if a new tier is added in settings but not here
+                };
             }
-
-
 
 
 
