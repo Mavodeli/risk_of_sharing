@@ -1,4 +1,19 @@
 ## Changelog
+- **0.1.0**
+    - First alpha version
+    - sharing for item tiers:
+        - white
+        - green 
+        - red
+        - yellow
+    - stopped drops from sharing:
+        - 3d printers (duplicators)
+        - scrappers
+        - cauldrons
+    - randomization toggles for:
+        - the one who picks up the item (also in singleplayer)
+        - items sent to others
+    - Note: *randomization defaults to off and is not user configurable yet*
 - **0.0.2**
     - Auotmatic github release test
 - **0.0.1**
