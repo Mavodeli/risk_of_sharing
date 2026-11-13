@@ -28,5 +28,7 @@ public class Plugin : BaseUnityPlugin
 
         harmonyPatcher.CreateClassProcessor(typeof(ItemDefAttemptGrantPatch)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(StageStartPatch)).Patch();
+        harmonyPatcher.CreateClassProcessor(typeof(ScrapperDropTagging)).Patch();
+        harmonyPatcher.CreateClassProcessor(typeof(CauldronDropTagging)).Patch();
     }
 }

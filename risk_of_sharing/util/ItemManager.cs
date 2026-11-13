@@ -17,13 +17,15 @@ namespace risk_of_sharing
             return ItemArchive.itemsToShare.Values.Any(itemTierIndexes => itemTierIndexes.Contains(itemIndex));
         }
 
-        public static void GiveItem(CharacterMaster initialCharacterMaster, PickupDef pickupDef, bool temporary = false, int amount = 1)
+        public static void GiveItem(CharacterMaster initialCharacterMaster, PickupDef pickupDef, bool share = true, bool temporary = false, int amount = 1)
         {
             // handle the one picking up the item first
             GiveItemToPlayer(
                 initialCharacterMaster,
                 Settings.randomizeOwnItems ? GetRandomizedItem(pickupDef) : pickupDef.itemIndex,
                 temporary, amount);
+
+            if (!share) { return; }
 
             // then handle the remaining players
             foreach (CharacterMaster playerCharacterMaster in PlayerCharacterMasterController.instances.Where(pcmc => pcmc.master != initialCharacterMaster).Select(pcmc => pcmc.master))
@@ -67,10 +69,10 @@ namespace risk_of_sharing
             {
                 itemsToShare[targetTier] = targetTier switch
                 {
-                    ItemTier.Tier1 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier1DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
-                    ItemTier.Tier2 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier2DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
-                    ItemTier.Tier3 => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableTier3DropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
-                    ItemTier.Boss => PickupCatalog.allPickups.Where(pickupDef => Run.instance.availableBossDropList.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList(),
+                    ItemTier.Tier1 => ConvertPickupIndeicesToItemIndices(Run.instance.availableTier1DropList),
+                    ItemTier.Tier2 => ConvertPickupIndeicesToItemIndices(Run.instance.availableTier2DropList),
+                    ItemTier.Tier3 => ConvertPickupIndeicesToItemIndices(Run.instance.availableTier3DropList),
+                    ItemTier.Boss => ConvertPickupIndeicesToItemIndices(Run.instance.availableBossDropList),
                     _ => new List<ItemIndex>() // should only be reached if a new tier is added in settings but not here
                 };
             }
@@ -87,7 +89,11 @@ namespace risk_of_sharing
             {
                 playerCharacterMaster.GiveMoney(5000, true);
             }
+        }
 
+        private static List<ItemIndex> ConvertPickupIndeicesToItemIndices(List<PickupIndex> pickupIndices)
+        {
+            return PickupCatalog.allPickups.Where(pickupDef => pickupIndices.Any(pickupIndex => pickupDef.pickupIndex == pickupIndex)).Select(pickupDef => pickupDef.itemIndex).ToList();
         }
     }
 }

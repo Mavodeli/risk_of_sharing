@@ -42,10 +42,10 @@ namespace risk_of_sharing.patches
             }
             else
             {
-                // share if applicable
+                // share if applicable (and not duplicated)
                 if (ItemManager.IsItemSharable(pickupDef))
                 {
-                    ItemManager.GiveItem(context.body.master, pickupDef);
+                    ItemManager.GiveItem(context.body.master, pickupDef, !context.controller.Duplicated);
                 }
                 else
                 {

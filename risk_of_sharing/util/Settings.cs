@@ -6,7 +6,7 @@ namespace risk_of_sharing
     class Settings
     {
         public static bool randomizeSharedItems = false;
-        public static bool randomizeOwnItems = true;
+        public static bool randomizeOwnItems = false;
         public static List<ItemTier> itemTiersToShare = new List<ItemTier>
         {
             ItemTier.Tier1,     // white
