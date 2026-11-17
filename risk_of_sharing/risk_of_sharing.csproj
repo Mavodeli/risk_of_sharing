@@ -31,4 +31,10 @@
         <PackageReference Include="R2API.Networking" Version="1.0.4" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Reference Include="RiskOfOptions">
+            <HintPath>..\RiskOfOptions\RiskOfOptions.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,3 @@
-using EntityStates;
 using EntityStates.Scrapper;
 using HarmonyLib;
 using RoR2;
@@ -14,6 +13,8 @@ namespace risk_of_sharing.patches
         [HarmonyPrefix]
         static bool PatchedOnEnter(ScrappingToIdle __instance)
         {
+            Debug.log("ScrappingToIdle.OnEnter called, replacing function with isDuplicated set for the scrap");
+
             // relevant base OnEnter functions we need to reassign here
             __instance.scrapperController = __instance.GetComponent<ScrapperController>();
 

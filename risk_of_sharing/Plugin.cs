@@ -7,6 +7,7 @@ namespace risk_of_sharing;
 
 
 
+[BepInDependency("com.rune580.riskofoptions")]
 [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
 [BepInProcess("Risk of Rain 2.exe")]
 public class Plugin : BaseUnityPlugin
@@ -23,12 +24,25 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         harmonyPatcher = new Harmony(pluginGUID);
 
+        Settings.awakenSettings(this);
+
         Logger.LogInfo($"Plugin {pluginGUID} is loaded!");
-        Logger.LogInfo("Applying patches");
+        Debug.log("Applying patches");
 
         harmonyPatcher.CreateClassProcessor(typeof(ItemDefAttemptGrantPatch)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(StageStartPatch)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(ScrapperDropTagging)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(CauldronDropTagging)).Patch();
+    }
+}
+
+public class Debug
+{
+    public static void log(object data)
+    {
+        if (Settings.debugMode.Value)
+        {
+            Plugin.Logger.LogDebug(data);
+        }
     }
 }

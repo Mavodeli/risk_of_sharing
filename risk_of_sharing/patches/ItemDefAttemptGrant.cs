@@ -10,6 +10,8 @@ namespace risk_of_sharing.patches
         [HarmonyPrefix]
         static bool AlteredGrant(ref PickupDef.GrantContext context, ItemDef __instance)
         {
+            Debug.log("ItemDef.AttemptGrant called, replacing function");
+
             PickupDef pickupDef = PickupCatalog.GetPickupDef(context.pickup.pickupIndex);
             ItemIndex itemIndex1 = pickupDef != null ? pickupDef.itemIndex : ItemIndex.None;
             ItemDef itemDef1 = ItemCatalog.GetItemDef(itemIndex1);
@@ -43,12 +45,16 @@ namespace risk_of_sharing.patches
             else
             {
                 // share if applicable (and not duplicated)
-                if (ItemManager.IsItemSharable(pickupDef))
+                if (ItemManager.IsItemShareable(pickupDef))
                 {
+                    Debug.log("generally shareable item found, processing item");
+
                     ItemManager.GiveItem(context.body.master, pickupDef, !context.controller.Duplicated);
                 }
                 else
                 {
+                    Debug.log("non-shareable item found, granting item normally");
+
                     context.body.inventory.GiveItemPermanent(itemIndex1);
                 }
 

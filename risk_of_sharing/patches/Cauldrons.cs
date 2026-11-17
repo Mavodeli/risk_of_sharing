@@ -11,14 +11,13 @@ namespace risk_of_sharing.patches
         [HarmonyPrefix]
         static bool PatchedDropPickup(ref bool isDuplicated, ShopTerminalBehavior __instance)
         {
-            Plugin.Logger.LogDebug("PatchedDropDroplet called");
-            Plugin.Logger.LogDebug("__instance: " + __instance);
-            Plugin.Logger.LogDebug("__instance.gameObject: " + __instance.gameObject);
-            Plugin.Logger.LogDebug("__instance.gameObject.name: " + __instance.gameObject.name);
+            Debug.log("ShopTerminalBehavior.DropPickup called, testing for cauldron");
 
             // Check for cauldrons (3d printers already set the duplicated tag)
             if (__instance.gameObject.name.ToLower().Contains("cauldron"))
             {
+                Debug.log("cauldron found, setting isDuplicated variable to true");
+
                 isDuplicated = true;
             }
 

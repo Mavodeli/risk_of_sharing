@@ -10,6 +10,8 @@ namespace risk_of_sharing.patches
         [HarmonyPostfix]
         static void initItemArchive()
         {
+            Debug.log("Stage.Start called, initializing item archive");
+
             ItemArchive.initItemsToShare();
         }
     }
