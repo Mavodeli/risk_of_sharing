@@ -14,7 +14,7 @@ public class Plugin : BaseUnityPlugin
 {
     const string pluginGUID = "de.mavodeli.risk_of_sharing";
     const string pluginName = "Risk of Sharing";
-    const string pluginVersion = "0.1.0";
+    public const string pluginVersion = "0.1.0";
 
     internal static new ManualLogSource Logger;
     private Harmony harmonyPatcher;
