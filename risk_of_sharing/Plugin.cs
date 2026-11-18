@@ -33,6 +33,7 @@ public class Plugin : BaseUnityPlugin
         harmonyPatcher.CreateClassProcessor(typeof(StageStartPatch)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(ScrapperDropTagging)).Patch();
         harmonyPatcher.CreateClassProcessor(typeof(CauldronDropTagging)).Patch();
+        harmonyPatcher.CreateClassProcessor(typeof(LunarCoinPatch)).Patch();
     }
 }
 

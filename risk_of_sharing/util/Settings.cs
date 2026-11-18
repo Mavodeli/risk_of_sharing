@@ -24,7 +24,7 @@ namespace risk_of_sharing
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public static ConfigEntry<bool>? debugMode;
         public static ConfigEntry<string>? pluginVersion;
-
+        public static ConfigEntry<bool>? randomizeToSameTier;
         public static ConfigEntry<bool>? randomizeSharedItems;
         public static ConfigEntry<bool>? randomizeItems;
         public static ConfigEntry<bool>? shareLunarCoins;
@@ -50,8 +50,9 @@ namespace risk_of_sharing
         {
             Settings.plugin = plugin;
             // [Randomization]
-            randomizeItems = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Randomization], "Randomize items", false, "Whether or not to randomize the shareable items you pick up");
-            randomizeSharedItems = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Randomization], "Randomize shared items", false, "Whether or not to randomize the shareable items sent to others");
+            randomizeItems = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Randomization], "Randomize items", false, "Whether or not to randomize the shareable items you pick up\n\nUpdates immediately");
+            randomizeSharedItems = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Randomization], "Randomize shared items", false, "Whether or not to randomize the shareable items sent to others\n\nUpdates immediately");
+            randomizeToSameTier = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Randomization], "Maintain tier", true, "Whether or not randomized items should be of the same tier as the original item\n\nWhen disabled the randomized item can be from the whitelist or any allowed tier\n\nUpdates immediately");
 
             // [Sharing]
             itemWhitelist = plugin.Config.Bind<string>(SettingsTabs[SettingsTab.Sharing], "item whitelist", "", "Comma separated list of internal item names to share regardless of tier or blacklist\n\nUpdates when entering a new stage\n\nIMPORTANT: if you're changing this in the .cfg file with the game open, use the Reload button in the settings Debug tab!");
@@ -77,7 +78,7 @@ namespace risk_of_sharing
             };
 
             // [Debug]
-            debugMode = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Debug], "Debug mode", false, "Whether or not to print debug messages to the log");
+            debugMode = plugin.Config.Bind<bool>(SettingsTabs[SettingsTab.Debug], "Debug mode", false, "Whether or not to print debug messages to the log\n\nUpdates immediately");
             pluginVersion = plugin.Config.Bind<string>(SettingsTabs[SettingsTab.Debug], "Plugin version", Plugin.pluginVersion, "The current plugin version, used to detect up/downgrades of the plugin to reset base blacklist");
             // detect potential change in version and reset baseItemBlacklist
             if (pluginVersion.Value != Plugin.pluginVersion)
@@ -95,6 +96,7 @@ namespace risk_of_sharing
             ModSettingsManager.AddOption(new GenericButtonOption("Reload settings", SettingsTabs[SettingsTab.Debug], "Reload settings from .cfg file to apply changes without restarting the game.\n\nIf you changed the item white- or blacklist the changes will apply when entering the next stage", "Reload", reloadLists));
             ModSettingsManager.AddOption(new CheckBoxOption(randomizeItems));
             ModSettingsManager.AddOption(new CheckBoxOption(randomizeSharedItems));
+            ModSettingsManager.AddOption(new CheckBoxOption(randomizeToSameTier));
             ModSettingsManager.AddOption(new CheckBoxOption(shareLunarCoins));
             ModSettingsManager.AddOption(new CheckBoxOption(shareVoidItems));
             foreach (KeyValuePair<ItemTier, ConfigEntry<bool>> pair in sharedItemTiersConfig)

@@ -52,7 +52,7 @@ namespace risk_of_sharing
         private static ItemIndex GetRandomizedItem(PickupDef pickupDef)
         {
             Random random = new Random();
-            List<ItemIndex> availableItems = ItemArchive.itemsToShare[pickupDef.itemTier];
+            List<ItemIndex> availableItems = Settings.randomizeToSameTier.Value ? ItemArchive.itemsToShare[pickupDef.itemTier] : ItemArchive.allSharedItems;
 
             return availableItems[random.Next(availableItems.Count)];
         }
@@ -63,6 +63,7 @@ namespace risk_of_sharing
     static class ItemArchive
     {
         public static Dictionary<ItemTier, List<ItemIndex>> itemsToShare;
+        public static List<ItemIndex> allSharedItems;
         public static List<ItemIndex> itemWhitelist;
         public static List<ItemIndex> itemBlacklist;
 
@@ -97,6 +98,13 @@ namespace risk_of_sharing
 
                 itemsToShare[itemDef.tier].Add(itemDef.itemIndex);
                 Debug.log("Added item: " + itemDef.name + " to the whitelist");
+            }
+
+            // also (re) initialize allSharedItems
+            allSharedItems = new List<ItemIndex>();
+            foreach (ItemTier tier in itemsToShare.Keys)
+            {
+                allSharedItems.AddRange(ItemArchive.itemsToShare[tier]);
             }
         }
 
